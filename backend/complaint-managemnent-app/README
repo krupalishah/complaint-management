@@ -1,0 +1,102 @@
+# sw-tt-authentix-fsm-server
+
+Deployment Stpes : 
+```
+==> Run command 'NPM install' to install all packages
+==> Need to update below variables when setup new env :
+
+### .env file
+
+Database configurations : 
+
+MASTER_DATABASE_HOST
+MASTER_DATABASE_NAME
+MASTER_DATABASE_USERNAME
+MASTER_DATABASE_PASSWORD
+
+
+
+### For Database migration follow below things : 
+
+Run Migrations in every time of deployment: 
+
+npx sequelize-cli db:migrate
+npx sequelize-cli db:migrate:undo:all // if needed
+
+
+## need to sync all default records needs to sync from IOT like below
+-- Sync all existing roles
+-- Existing users
+
+Run all Seeds at once: 
+npx sequelize-cli db:seed:all
+npx sequelize-cli db:seed --seed {seed-file-name} // In every deployment, need to execute updated or new seeds once
+
+```
+
+
+
+
+Development Guide
+```
+
+### Clone Repo
+git clone git@github.com:softweb/sw-tt-authentix-fsm-server.git
+
+
+### Install packages
+npm install
+
+### Sequlize cli Migration Guide
+`https://sequelize.org/docs/v6/other-topics/migrations/`
+
+#### Intialize Sequelize CLI
+Create .sequelizerc file for custojm cofig
+npx sequelize-cli init
+
+## Migration
+### Create New Table Migration
+
+This will create migration and schema file for specific table if creating new table
+
+npx sequelize-cli model:generate --name {tablename} --attributes {attrbutename}:{type}
+
+Example: 
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+### Alter Table Migration
+npx sequelize-cli migration:create --name modify_users_add_new_fields
+
+### Migration execution commands:
+
+1. Run migration
+npx sequelize-cli db:migrate
+
+2. Undo Migration
+npx sequelize-cli db:migrate:undo
+
+3. Undo ALL Migrations
+npx sequelize-cli db:migrate:undo:all
+
+
+## Seeder
+
+### create Seeder
+`npx sequelize-cli seed:generate --name user`
+
+### Running Seeds
+npx sequelize-cli db:seed:all
+
+
+### Undoing Seeds
+
+If you wish to undo the most recent seed:
+npx sequelize-cli db:seed:undo
+
+
+If you wish to undo a specific seed:
+npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data
+
+
+If you wish to undo all seeds:
+npx sequelize-cli db:seed:undo:all
